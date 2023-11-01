@@ -18,15 +18,12 @@ Reference:
 - [View SQL and Add Records](#view-sql-and-add-records)
 - [Update and Delete Records](#update-and-delete-records)
 - [Create Update Model](#create-update-model)
-
 - [Create Admin User](#create-admin-user)
 - [Include Member in Admin and Display List](#include-member-in-admin-and-display-list)
-
 - [Connect to Database](#connect-to-database)
-
 - [](#)
 
-pip install mysqlclient
+
 
 ### Set up Virtual Environment
 
@@ -444,3 +441,14 @@ DATABASES = {
     }
 }
 ```
+
+3. Run migrate command to create tables
+```
+python manage.py migrate
+```
+
+4. Check out new tables using phpmyadmin at http://127.0.0.1:8080/index.php?route=/database/structure&db=testing
+
+Note: I use Docker to run phpmyadmin server for mysql database (See Laravel project separately)
+
+
