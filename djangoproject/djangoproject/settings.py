@@ -76,8 +76,17 @@ WSGI_APPLICATION = 'djangoproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# EA 1 Nov 2023 - Updated to connect to mysql database instead of sqlite
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'testing',
+        'USER': 'sail',
+        'PASSWORD': 'password',
+        'HOST':'127.0.0.1',
+        'PORT':'3306',
+    },
+    'default2': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }

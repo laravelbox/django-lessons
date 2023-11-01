@@ -7,3 +7,7 @@ class Member(models.Model):
   # EA 1 Nov 2023 - Added 2 new fields
   phone = models.IntegerField(null=True)
   joined_date = models.DateField(null=True)
+
+# EA 1 Nov 2023 - Set string representation of object in Python
+def __str__(self):
+    return f"{self.firstname} {self.lastname}"

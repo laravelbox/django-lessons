@@ -6,6 +6,7 @@ Reference:
 - https://realpython.com/get-started-with-django-1
 - https://opensource.com/article/19/5/python-3-default-mac
 - https://pypi.org/project/certifi/
+- https://sqlitebrowser.org/dl/
 
 ## Lesson Modules
 
@@ -17,6 +18,15 @@ Reference:
 - [View SQL and Add Records](#view-sql-and-add-records)
 - [Update and Delete Records](#update-and-delete-records)
 - [Create Update Model](#create-update-model)
+
+- [Create Admin User](#create-admin-user)
+- [Include Member in Admin and Display List](#include-member-in-admin-and-display-list)
+
+- [Connect to Database](#connect-to-database)
+
+- [](#)
+
+pip install mysqlclient
 
 ### Set up Virtual Environment
 
@@ -350,4 +360,87 @@ member1.joined_date = '2023-11-1'
 
 member1.save()
 Member.objects.all().values()
+```
+
+
+### Create Admin User
+
+1. Enter username, email and password to create a new admin user
+```
+python manage.py createsuperuser
+```
+2. Start server
+```
+python manage.py runserver
+```
+
+3. Open a new web browser and run http://127.0.0.1:8000/admin
+
+### Include Member in Admin and Display List
+
+1. Edit djangoproject/members/admin.py
+```
+from django.contrib import admin
+from .models import Member
+
+# Register your models here.
+
+# EA 1 Nov 2023 - Registered member model
+admin.site.register(Member)
+```
+
+2. Refresh admin page to see Members module in the admin dashboard
+http://127.0.0.1:8000/admin
+
+3. Set string representation of object in Python if only one default column in list display 
+
+Edit djangoproject/members/models.py:
+```
+# EA 1 Nov 2023 - Set string representation of object in Python
+def __str__(self):
+    return f"{self.firstname} {self.lastname}"
+```
+
+4. Set list display with specified columns
+
+Edit djangoproject/members/admin.py:
+
+```
+# EA 1 Nov 2023 - Set list display for member
+class MemberAdmin(admin.ModelAdmin):
+  list_display = ("firstname", "lastname", "joined_date",)
+  
+admin.site.register(Member, MemberAdmin)
+```
+
+5. Add, Update and Delete functions are automatically included in the module by default
+
+### Connect to Database
+
+1. To connect to MySQL, install mySQL Server at https://dev.mysql.com/downloads/mysql/ and then install mysqlclient
+
+```
+brew install mysql pkg-config
+pip install mysqlclient
+```
+
+2. Update database setting to connect to mysql database
+
+Edit djangoproject/djangoproject/settings.py:
+```
+# EA 1 Nov 2023 - Updated to connect to mysql database instead of sqlite
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'testing',
+        'USER': 'sail',
+        'PASSWORD': 'password',
+        'HOST':'127.0.0.1',
+        'PORT':'3306',
+    },
+    'default2': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 ```
