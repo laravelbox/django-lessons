@@ -14,7 +14,9 @@ Reference:
 - [Create New App and Page](#create-new-app-and-page)
 - [Create New Template](#create-new-template)
 - [Create New Model](#create-new-model)
-- [](#)
+- [View SQL and Add Records](#view-sql-and-add-records)
+- [Update and Delete Records](#update-and-delete-records)
+- [Create Update Model](#create-update-model)
 
 ### Set up Virtual Environment
 
@@ -216,9 +218,136 @@ python manage.py makemigrations members
 
 3. Check new migration file at djangoproject/members/migrations/0001_initial.py
 
-4. Run migrate command
+4. Run migrate command to create new table
 ```
 python manage.py migrate
 
 python manage.py sqlmigrate members 0001 # to check only
+```
+
+### View SQL and Add Records
+
+1. Check djangoproject/members/migrations/0001_initial.py output
+```
+python manage.py sqlmigrate members 0001
+```
+2. Use Python Shell to run python codes to add records
+```
+python manage.py shell
+```
+
+3. Add records using shell
+
+Query to view records of table
+```
+from members.models import Member
+Member.objects.all()
+```
+
+Add a new record to the table
+```
+member = Member(firstname='Mary', lastname='Chan')
+member.save()
+```
+
+Query to view records of the table
+```
+from members.models import Member
+Member.objects.all()
+Member.objects.all().values()
+```
+
+Add multiple records
+```
+member1 = Member(firstname='Apple', lastname='Tay')
+member2 = Member(firstname='Betty', lastname='Uma')
+member3 = Member(firstname='Catherine', lastname='Vera')
+members_list = [member1, member2, member3]
+for x in members_list:
+    x.save()
+
+Member.objects.all().values()
+```
+
+### Update and Delete Records
+
+1. Update record
+
+Display first record's first name
+```
+from members.models import Member
+member1 = Member.objects.all()[0]
+member1.firstname
+```
+
+Update firstname of first record
+```
+from members.models import Member
+member1 = Member.objects.all()[0]
+member1.firstname = "Zero"
+member1.save()
+
+member1.firstname
+Member.objects.all().values()
+
+```
+
+2. Delete record
+
+Display first name of 2nd record
+```
+from members.models import Member
+member2 = Member.objects.all()[1]
+member2.firstname
+```
+
+Delete 2nd record
+```
+member2.delete()
+Member.objects.all().values()
+```
+
+
+
+### Create Update Model
+
+1. Add 2 new fields to the model
+```
+from django.db import models
+
+# EA 31 Oct 2023 - Added member model class
+class Member(models.Model):
+  firstname = models.CharField(max_length=255)
+  lastname = models.CharField(max_length=255)
+  # EA 1 Nov 2023 - Added 2 new fields
+  phone = models.IntegerField(null=True)
+  joined_date = models.DateField(null=True)
+
+```
+
+2. Run makemigration to create migration file 
+```
+python manage.py makemigrations members
+```
+
+3. View newly created file at djangoproject/members/migrations/0002_member_joined_date_member_phone.py
+
+4. Run migrate command to add new fields to the table
+```
+python manage.py migrate
+```
+
+5. Open shell to update fields
+
+```
+python manage.py shell
+```
+```
+from members.models import Member
+member1 = Member.objects.all()[0]
+member1.phone = 91939393
+member1.joined_date = '2023-11-1'
+
+member1.save()
+Member.objects.all().values()
 ```
