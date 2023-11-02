@@ -1,5 +1,7 @@
 # Django Lessons
 
+View assessment at [docs/assessment/README.md]
+
 Reference: 
 - https://www.w3schools.com/django/django_getstarted.php
 - https://www.djangoproject.com
@@ -7,6 +9,9 @@ Reference:
 - https://opensource.com/article/19/5/python-3-default-mac
 - https://pypi.org/project/certifi/
 - https://sqlitebrowser.org/dl/
+- https://www.geeksforgeeks.org/django-tutorial/
+- https://www.geeksforgeeks.org/django-rest-framework-installation/
+- https://www.geeksforgeeks.org/how-to-create-a-basic-api-using-django-rest-framework/
 
 ## Lesson Modules
 
