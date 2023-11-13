@@ -1,8 +1,27 @@
 # Django Lessons
 
-View assessment at [docs/assessment/README.md]
+## Quick Start
 
-Reference: 
+1. Run commands to start virtual environment and server
+
+```
+django-virtual-env\Scripts\activate.bat
+
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py collectstatic
+python manage.py test # Run the standard tests. These should all pass.
+python manage.py createsuperuser # Create a superuser
+python manage.py runserver
+```
+
+2. Open admin site on web browser http://127.0.0.1:8000/admin/
+
+3. Open main site on web browser http://127.0.0.1:8000/
+
+## References
+
 - https://www.w3schools.com/django/django_getstarted.php
 - https://www.djangoproject.com
 - https://realpython.com/get-started-with-django-1
