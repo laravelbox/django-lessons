@@ -15,6 +15,8 @@ Reference:
 
 ## Lesson Modules
 
+Basics
+
 - [Set up Virtual Environment](#set-up-virtual-environment)
 - [Create New Project](#create-new-project)
 - [Create New App and Page](#create-new-app-and-page)
@@ -23,8 +25,23 @@ Reference:
 - [View SQL and Add Records](#view-sql-and-add-records)
 - [Update and Delete Records](#update-and-delete-records)
 - [Create Update Model](#create-update-model)
+
+Admin
+
 - [Create Admin User](#create-admin-user)
 - [Include Member in Admin and Display List](#include-member-in-admin-and-display-list)
+
+Display Template
+
+- [Create Template](#create-template)
+- [Create Details Link](#create-details-link)
+- [Create Master Template](#create-master-template)
+- [Create Main Index Page](#create-main-index-page)
+- [Create Error Page](#create-error-page)
+
+
+Database
+
 - [Connect to Database](#connect-to-database)
 - [](#)
 
@@ -58,7 +75,10 @@ pip install certifi
 Create virtual environment folder first and enter the virtual environment:
 ```
 python -m venv django-virtual-env
+
 source django-virtual-env/bin/activate
+
+django-virtual-env\Scripts\activate.bat
 ```
 Install Django in the virtual environment:
 ```
@@ -457,3 +477,260 @@ python manage.py migrate
 Note: I use Docker to run phpmyadmin server for mysql database (See Laravel project separately)
 
 
+### Create Template
+
+1. Create a new template 
+
+djangoproject/members/templates/all_members.html:
+```
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Members</h1>
+  
+<ul>
+  {% for x in mymembers %}
+    <li>{{ x.firstname }} {{ x.lastname }}</li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>
+```
+
+2. Update view
+
+Edit djangoproject/members/views.py:
+```
+# EA 12 Nov 2023 - Display new view with all members template
+def members3(request):
+  mymembers = Member.objects.all().values()
+  template = loader.get_template('all_members.html')
+  context = {
+    'mymembers': mymembers,
+  }
+  return HttpResponse(template.render(context, request))
+```
+3. Add url
+
+Edit djangoproject/members/urls.py:
+
+```
+# EA 31 Oct 2023 - Create new urls file
+urlpatterns = [
+    path('members/', views.members, name='members'),
+    path('members2/', views.members2, name='members2'),
+    path('members3/', views.members3, name='members3'),
+]
+```
+
+4. Run http://127.0.0.1:8000/members3/
+
+
+### Create Details Link
+
+1. Create new template
+
+djangoproject/members/templates/details.html
+```
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<h1>{{ mymember.firstname }} {{ mymember.lastname }}</h1>
+  
+<p>Phone: {{ mymember.phone }}</p>
+<p>Member since: {{ mymember.joined_date }}</p>
+
+<p>Back to <a href="/members3">Members</a></p>
+
+</body>
+</html>
+```
+
+2. Create details link
+
+Edit djangoproject/members/templates/all_members.html:
+```
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Members</h1>
+  
+<ul>
+  {% for x in mymembers %}
+    <li><a href="details/{{ x.id }}">{{ x.firstname }} {{ x.lastname }}</a></li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>
+```
+
+3. Create new view
+
+Edit djangoproject/members/views.py:
+```
+# EA 13 Nov 2023 - Display new view for displaying details
+def details(request, id):
+  mymember = Member.objects.get(id=id)
+  template = loader.get_template('details.html')
+  context = {
+    'mymember': mymember,
+  }
+  return HttpResponse(template.render(context, request))
+```
+4. Add url
+
+Edit djangoproject/members/urls.py:
+```
+path('members3/details/<int:id>', views.details, name='details'),
+```
+
+### Create Master Template
+
+1. Create master template
+
+djangoproject/members/templates/master.html:
+```
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+<h1>{% block title2 %}{% endblock %}</h1>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
+```
+
+2. Edit view templates
+
+djangoproject/members/templates/all_members2.html:
+```
+{% extends "master.html" %}
+
+{% block title %}
+  List of all members
+{% endblock %}
+
+{% block title2 %}
+  Showing list of all members
+{% endblock %}
+
+
+{% block content %}
+  <h1>Members3</h1>
+  
+  <ul>
+    {% for x in mymembers %}
+      <li><a href="details2/{{ x.id }}">{{ x.firstname }} {{ x.lastname }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+```
+
+djangoproject/members/templates/details2.html:
+```
+{% extends "master.html" %}
+
+{% block title %}
+  Details about {{ mymember.firstname }} {{ mymember.lastname }}
+{% endblock %}
+
+{% block title2 %}
+  Showing Details about {{ mymember.firstname }} {{ mymember.lastname }}
+{% endblock %}
+
+
+{% block content %}
+  <h1>{{ mymember.firstname }} {{ mymember.lastname }}</h1>
+  
+  <p>Phone {{ mymember.phone }}</p>
+  <p>Member since: {{ mymember.joined_date }}</p>
+  
+  <p>Back to <a href="/members4">Members</a></p>
+  
+{% endblock %}
+```
+3. Edit views and urls
+
+
+### Create Main Index Page
+
+1. Create main template (homepage view)
+
+djangoproject/members/templates/main.html:
+```
+{% extends "master.html" %}
+
+{% block title %}
+  My List of Members
+{% endblock %}
+
+{% block title2 %}
+  Showing List of Members
+{% endblock %}
+
+{% block content %}
+
+  <h3>Members4</h3>
+  
+  <p>Check out all our <a href="members4/">members</a></p>
+  
+{% endblock %}
+```
+
+2. Edit view
+
+Edit djangoproject/members/views.py:
+```
+# EA 13 Nov 2023 - Display new view for displaying main
+def main(request):
+  template = loader.get_template('main.html')
+  return HttpResponse(template.render())
+```
+
+3. Edit url
+
+Edit djangoproject/members/urls.py:
+```
+path('', views.main, name='main'),
+```
+
+### Create Error Page
+
+1. Set debug to false
+
+Edit djangoproject/djangoproject/settings.py:
+```
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+ALLOWED_HOSTS = ['127.0.0.1']
+```
+
+2. Create error page
+
+djangoproject/members/templates/404.html:
+```
+<!DOCTYPE html>
+<html>
+<title>404 Error</title>
+<body>
+
+<h1>Ooops!</h1>
+
+<h2>Sorry, we are unable to find the file you requested!</h2>
+
+</body>
+</html>
+```
