@@ -54,3 +54,12 @@ def details2(request, id):
 def main(request):
   template = loader.get_template('main.html')
   return HttpResponse(template.render())
+
+# EA 21 Nov 2023 - Test a simple view
+from django.http import HttpResponse, HttpResponseNotFound
+
+def show_message(request):
+    #html = "<html><body>Hello!</body></html>"
+    #return HttpResponse(html)
+    #return HttpResponseNotFound("<h1>Page not found</h1>")
+    

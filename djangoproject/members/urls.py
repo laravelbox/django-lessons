@@ -10,5 +10,8 @@ urlpatterns = [
     path('members3/details/<int:id>', views.details, name='details'),
     path('members4/', views.members4, name='members4'),
     path('members4/details2/<int:id>', views.details2, name='details2'),
+
+    path('show-message/', views.show_message, name='show-message'),
+    
 ]
 

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r$91#fam!x2^gt0@myv@(2_8fj@f+2uv2+$28orzmxdqs(c6f7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'djangoproject.wsgi.application'
 
 # EA 1 Nov 2023 - Updated to connect to mysql database instead of sqlite
 DATABASES = {
-    'default': {
+    'default2': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'testing',
         'USER': 'sail',
@@ -86,7 +86,7 @@ DATABASES = {
         'HOST':'127.0.0.1',
         'PORT':'3306',
     },
-    'default2': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }

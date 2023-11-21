@@ -1,5 +1,18 @@
 # Django Lessons
 
+References
+
+- https://www.w3schools.com/django/django_getstarted.php
+- https://www.djangoproject.com
+- https://realpython.com/get-started-with-django-1
+- https://opensource.com/article/19/5/python-3-default-mac
+- https://pypi.org/project/certifi/
+- https://sqlitebrowser.org/dl/
+- https://www.geeksforgeeks.org/django-tutorial/
+- https://www.geeksforgeeks.org/django-rest-framework-installation/
+- https://www.geeksforgeeks.org/how-to-create-a-basic-api-using-django-rest-framework/
+
+
 ## Quick Start
 
 1. Run commands to start virtual environment and server
@@ -20,17 +33,6 @@ python manage.py runserver
 
 3. Open main site on web browser http://127.0.0.1:8000/
 
-## References
-
-- https://www.w3schools.com/django/django_getstarted.php
-- https://www.djangoproject.com
-- https://realpython.com/get-started-with-django-1
-- https://opensource.com/article/19/5/python-3-default-mac
-- https://pypi.org/project/certifi/
-- https://sqlitebrowser.org/dl/
-- https://www.geeksforgeeks.org/django-tutorial/
-- https://www.geeksforgeeks.org/django-rest-framework-installation/
-- https://www.geeksforgeeks.org/how-to-create-a-basic-api-using-django-rest-framework/
 
 ## Lesson Modules
 
@@ -63,6 +65,12 @@ Database
 
 - [Connect to Database](#connect-to-database)
 - [](#)
+
+Authentication and Session
+- [User Authentication and Permissions](docs/django-user-authentication.md)
+
+Views
+- [Create Views](docs/django-views.md)
 
 
 
